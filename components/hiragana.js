@@ -38,7 +38,7 @@ export default function Hiragana_QA() {
         userInput;
 
       // Save to history
-        history.current[ansLabel.innerHTML] = userInput;
+      history.current[ansLabel.innerHTML] = userInput;
     }
 
     // Reset Input
@@ -48,6 +48,8 @@ export default function Hiragana_QA() {
   const setNextQuestion = (AskLabel, dict) => {
     return getRandomHgn(dict.word);
   };
+
+  // JS
 
   return (
     <div className="flex justify-center">
@@ -73,10 +75,7 @@ export default function Hiragana_QA() {
                   dict
                 );
                 setQuestion(
-                  setNextQuestion(
-                    document.getElementById("AskLabel"),
-                    dict
-                  )
+                  setNextQuestion(document.getElementById("AskLabel"), dict)
                 );
               }
             }}
@@ -93,7 +92,9 @@ export default function Hiragana_QA() {
           {Object.keys(history.current).map((key) => (
             <div className="flex justify-between">
               <div>{key}</div>
-              <div>{history.current[key]}</div>
+              <div>
+                {history.current[key] ? history.current[key] : "尚未作答"}
+              </div>
             </div>
           ))}
         </div>
