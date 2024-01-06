@@ -1,17 +1,19 @@
 import React from "react";
-import dict from "../public/wordConverter.json";
+import dict from "./wordConverter.json";
 
 export default function Hiragana_QA() {
   const history = React.useRef({});
+  const [question, setQuestion] = React.useState("");
+  const [isInit, setIsInit] = React.useState(true);
+
+  React.useEffect(() => {
+    if (isInit) {
+      setQuestion(getRandomHgn(dict.word));
+      setIsInit(false);
+    }
+  }, [isInit]);
 
   function getEN(Hgn, dictionary) {
-    /*
-        for(let i=0; i<dictionary["word"].length; i++){
-            if(dictionary["word"][i]["JP_Hgn"] === Hgn){
-                return  dictionary["word"][i]["EN"];
-            }
-        }
-        */
     let foundWord = dictionary["word"].filter((word) => word["JP_Hgn"] === Hgn);
     return foundWord.length === 1 ? foundWord[0]["EN"] : "";
   }
@@ -36,8 +38,7 @@ export default function Hiragana_QA() {
         userInput;
 
       // Save to history
-      history.current[ansLabel.innerHTML] = userInput;
-      console.log(history.current);
+        history.current[ansLabel.innerHTML] = userInput;
     }
 
     // Reset Input
@@ -45,16 +46,8 @@ export default function Hiragana_QA() {
   };
 
   const setNextQuestion = (AskLabel, dict) => {
-    AskLabel.innerHTML = getRandomHgn(dict.word);
+    return getRandomHgn(dict.word);
   };
-
-  const [question, setQuestion] = React.useState("");
-  const [isInit, setIsInit] = React.useState(true);
-
-  if (isInit) {
-    setQuestion(getRandomHgn(dict.word));
-    setIsInit(false);
-  }
 
   return (
     <div className="flex justify-center">
