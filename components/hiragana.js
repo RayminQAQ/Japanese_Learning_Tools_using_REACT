@@ -66,8 +66,18 @@ export default function Hiragana_QA() {
             type="text"
             onKeyDown={(event) => {
               if (event.key === "Enter") {
-                setResult(AskLabel, result, wordInput, dict);
-                setNextQuestion(AskLabel, dict);
+                setResult(
+                  document.getElementById("AskLabel"),
+                  document.getElementById("result"),
+                  document.getElementById("wordInput"),
+                  dict
+                );
+                setQuestion(
+                  setNextQuestion(
+                    document.getElementById("AskLabel"),
+                    dict
+                  )
+                );
               }
             }}
           />
