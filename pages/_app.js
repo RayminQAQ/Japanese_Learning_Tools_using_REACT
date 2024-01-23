@@ -1,22 +1,15 @@
 import React from "react";
 
 import "../styles/globals.css";
-import "./_app.css";
 import "../styles/font.css"; // shigen
 
-import Menu from "../layouts/menu"; // Menu要大寫 -> export function
-import Hiragana_QA from "../components/hiragana";
+import NavbarComponent from "../layouts/menu"; // Menu要大寫 -> export function
 import Footer from "../layouts/footer";
+import Reminder from "../components/reminder";
 
 // import { BrowserRouter, Routes, Route } from "react-router";
 
 export default function App() {
-  // const [usr_input, setUsr_input] = useState(""); const [isLogin, setIsLogin] =
-  // useState(false); // 是否登入
-
-  const menu_list = ["平假名", "片假名", "ML 辨識相關"];
-
-  //const binding = ["平假名的binding", "片假名的binding", "ML辨識的binding"];
 
   return (
     <div
@@ -25,14 +18,10 @@ export default function App() {
         fontFamily: "shigen",
       }}
     >
-      <Menu menuList={menu_list} />
-      <Hiragana_QA />
+      <NavbarComponent />
       <Footer />
-      <br />
-      <div className="text-center text-1xl">
-        TO-DO list for ML：Can be train from
-        https://github.com/Nippon2019/Handwritten-Japanese-Recognition/tree/master
-      </div>
+      <br/>
+      <Reminder />
     </div>
   );
 }

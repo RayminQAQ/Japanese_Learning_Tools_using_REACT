@@ -1,17 +1,16 @@
 import React from "react";
-import dict from "../public/wordConverter.json";
+import dict from "./wordConverter.json";
 
 export default function Hiragana_QA() {
   const history = React.useRef({});
+  const [question, setQuestion] = React.useState(""); // getRandomHgn 回傳變數
+
+  // 只有第一次會執行
+  React.useEffect(() => {
+    setQuestion(getRandomHgn(dict.word));
+  }, []);
 
   function getEN(Hgn, dictionary) {
-    /*
-        for(let i=0; i<dictionary["word"].length; i++){
-            if(dictionary["word"][i]["JP_Hgn"] === Hgn){
-                return  dictionary["word"][i]["EN"];
-            }
-        }
-        */
     let foundWord = dictionary["word"].filter((word) => word["JP_Hgn"] === Hgn);
     return foundWord.length === 1 ? foundWord[0]["EN"] : "";
   }
@@ -37,7 +36,8 @@ export default function Hiragana_QA() {
 
       // Save to history
       history.current[ansLabel.innerHTML] = userInput;
-      console.log(history.current);
+    } else {
+      answerLabel.innerHTML = "正確答案!!";
     }
 
     // Reset Input
@@ -45,16 +45,10 @@ export default function Hiragana_QA() {
   };
 
   const setNextQuestion = (AskLabel, dict) => {
-    AskLabel.innerHTML = getRandomHgn(dict.word);
+    return getRandomHgn(dict.word);
   };
 
-  const [question, setQuestion] = React.useState("");
-  const [isInit, setIsInit] = React.useState(true);
-
-  if (isInit) {
-    setQuestion(getRandomHgn(dict.word));
-    setIsInit(false);
-  }
+  // JS
 
   return (
     <div className="flex justify-center">
@@ -73,15 +67,22 @@ export default function Hiragana_QA() {
             type="text"
             onKeyDown={(event) => {
               if (event.key === "Enter") {
-                setResult(AskLabel, result, wordInput, dict);
-                setNextQuestion(AskLabel, dict);
+                setResult(
+                  document.getElementById("AskLabel"),
+                  document.getElementById("result"),
+                  document.getElementById("wordInput"),
+                  dict
+                );
+                setQuestion(
+                  setNextQuestion(document.getElementById("AskLabel"), dict)
+                );
               }
             }}
           />
           <label className="ml-2 text-xl">(英文拼音)</label>
         </div>
         <span id="result" className="flex justify-center mt-2">
-          答案在這裡!!
+          錯誤會顯示在這裡!!
         </span>
       </div>
       <div className="flex flex-col m-4 p-4 border-solid border-2 border-111111 text-2xl ">
@@ -89,8 +90,8 @@ export default function Hiragana_QA() {
         <div className="flex flex-col">
           {Object.keys(history.current).map((key) => (
             <div className="flex justify-between">
-              <div>{key}</div>
-              <div>{history.current[key]}</div>
+              <p className="pr-1">{key + "(" + getEN(key, dict) + ")"}&nbsp;</p>
+              <p>{history.current[key]}</p>
             </div>
           ))}
         </div>
