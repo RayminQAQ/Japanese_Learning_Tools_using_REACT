@@ -23,7 +23,7 @@ This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-opti
 ## Dependency
 1. Tailwind CSS
 2. Tensorflow.js
-
+3. react-canvas-draw
 
 ## Deploy on Local host
 
